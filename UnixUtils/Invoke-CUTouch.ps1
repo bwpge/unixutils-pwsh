@@ -110,7 +110,7 @@ function Invoke-CUTouch {
         # resolve link if -h not set -- this may result in null/empty path
         $path = $item
         if (!$NoDereference -and (Test-Path $path)) {
-            $path = Get-Item $path 2>$null | Select-Object -Property ResolvedTarget
+            $path = (Get-Item $path 2>$null).ResolvedTarget
         }
         if (!$path) {
             Write-Error "cannot touch '$item': Path is an empty string"
