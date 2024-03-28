@@ -1,3 +1,17 @@
+<#
+.SYNOPSIS
+    Locate a command.
+.DESCRIPTION
+    Returns the pathnames of the files (or links) which would be executed in
+    the current environment, had its arguments been given as commands in a
+    strictly POSIX-conformant shell. It does this by searching the PATH for
+    executable files matching the names of the arguments. It does not
+    canonicalize path names.
+.INPUTS
+    System.String[]
+.OUTPUTS
+    System.String[]
+#>
 function Invoke-UUWhich {
     [CmdletBinding()]
     param(
