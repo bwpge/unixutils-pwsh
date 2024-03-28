@@ -12,7 +12,7 @@
 .LINK
     https://www.gnu.org/software/coreutils/manual/html_node/touch-invocation.html
 #>
-function Invoke-CUTouch {
+function Invoke-UUTouch {
     [CmdletBinding()]
     param(
         [Parameter(
