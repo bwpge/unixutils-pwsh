@@ -12,9 +12,6 @@ GUID = '90e245b3-ac30-4f38-a8b8-5f02ead7e5bb'
 # Author of this module
 Author = 'bwpge'
 
-# Company or vendor of this module
-CompanyName = 'Unknown'
-
 # Copyright statement for this module
 Copyright = '(c) 2024 bwpge'
 
@@ -27,6 +24,7 @@ PowerShellVersion = '5.1'
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
     'Invoke-CUTouch'
+    'Set-UUAlias'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
