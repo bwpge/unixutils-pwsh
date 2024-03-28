@@ -85,7 +85,7 @@ function Set-UUAlias {
         }
 
         $fn_name = "$alias_prefix$key"
-        New-Item -Path function:\ -Name "global:$fn_name" -Value "& $value `$args" -Force | Out-Null
+        New-Item -Path function:\ -Name "global:$fn_name" -Value "& $value `@args" -Force | Out-Null
         Set-Alias -Name $key -Value $fn_name -Scope Global -Option AllScope
     }
 }
