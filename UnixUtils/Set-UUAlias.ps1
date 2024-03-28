@@ -1,16 +1,3 @@
-function get_alias_def($item) {
-    $def = $item.Definition
-    if ($def.StartsWith($alias_prefix)) {
-        $def = (Get-Item -Path "Function:\$def").Definition
-    }
-    $def = $def -replace "^& " -replace ' \$args$' -replace "'", "''"
-    if ($def.Contains(" ")) {
-        $def = "'$def'"
-    }
-
-    $def
-}
-
 <#
 .SYNOPSIS
     Define or display aliases.
@@ -49,7 +36,7 @@ function Set-UUAlias {
     if (!$Expression) {
         $aliases = Get-Alias 2>$null | ?{ $_.Definition.StartsWith($alias_prefix) }
         foreach ($a in $aliases) {
-            $def = get_alias_def($a)
+            $def = Get-UUAliasDefinition $a $true
             Write-Output "$($a.Name)=$def"
             continue
         }
@@ -66,7 +53,7 @@ function Set-UUAlias {
                 continue
             }
 
-            $def = get_alias_def($a)
+            $def = Get-UUAliasDefinition $a $true
             Write-Output "$($a.Name)=$def"
             continue
         }
