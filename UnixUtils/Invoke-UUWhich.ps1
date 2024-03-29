@@ -26,41 +26,31 @@ function Invoke-UUWhich {
 
     foreach ($f in $File) {
         $output = [System.Collections.Generic.List[string]]::new()
+        foreach ($cmd in (Get-Command $f -All:$All -EA 0)) {
+            $s = ""
 
-        # find command that will be executed by shell first
-        $cmd = Get-Command $f -ErrorAction SilentlyContinue
-        if ($cmd -eq $null) {
-            continue
-        }
-
-        $s = $cmd.Name
-        if ($cmd.CommandType -eq 'Alias') {
-            $s = "${f}: aliased to $(Get-UUAliasDefinition $cmd)"
-        } elseif ($cmd.CommandType -eq 'Application') {
-            $s = "$($cmd.Source)"
-        } elseif ($cmd.CommandType -eq 'Function') {
-            $s = "function $($cmd.Name) {`n$($cmd.Definition)`n}"
-        } else {
-            $s = "$($cmd.Name) ($($cmd.CommandType))"
-        }
-        $output.Add("$s")
-
-        # handle -a option
-        if ($All) {
-            $exts = $env:PATHEXT.Split(";", [System.StringSplitOptions]::RemoveEmptyEntries) | %{ $_.ToLower() }
-            $paths = $env:PATH.Split(";", [System.StringSplitOptions]::RemoveEmptyEntries)
-            foreach ($p in $paths) {
-                if (!(Test-Path "$p" -PathType Container)) {
-                    continue
+            switch ($cmd.CommandType) {
+                'Alias'{
+                    $s = "${f}: aliased to $(Get-UUAliasDefinition $cmd)"
                 }
-                $entries = Get-ChildItem -Filter "$f.*" -File "$p" | ?{ $_.Extension -in $exts }
-                foreach ($entry in $entries) {
-                    $ext = $entry.Extension.ToLower()
-                    if (!$output.Contains($entry.FullName)) {
-                        $output.Add($entry.FullName)
+                {$_ -eq 'Application' -or $_ -eq 'ExternalScript'} {
+                    $s = "$($cmd.Source)"
+                }
+                'Function' {
+                    $s = "function $($cmd.Name) {`n$($cmd.Definition)`n}"
+                }
+                'Cmdlet'  {
+                    $s = "${f}: cmdlet"
+                    if ($cmd.Source) {
+                        $s += " in $($cmd.Source)"
                     }
                 }
+                default {
+                    $s = "$($cmd.Name) ($($cmd.CommandType))"
+                }
             }
+
+            $output.Add("$s")
         }
 
         return ,$output
