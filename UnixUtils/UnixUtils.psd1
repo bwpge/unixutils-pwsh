@@ -19,10 +19,11 @@ Copyright = '(c) 2024 bwpge'
 Description = 'An incomplete PowerShell implementation of various Unix-like utilities and some GNU Coreutils.'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '5.1'
+PowerShellVersion = '7.4'
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
+    'Invoke-UUMkDir'
     'Invoke-UUTouch'
     'Invoke-UUWhich'
     'Set-UUAlias'
