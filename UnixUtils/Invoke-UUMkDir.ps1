@@ -51,7 +51,7 @@ function Invoke-UUMkDir {
         }
 
         # either there is no parent to create, or user supplied -p to create them
-        $parts = $parent.split("\\/".ToCharArray())
+        $parts = $parent.Split("\\/".ToCharArray(), [System.StringSplitOptions]::RemoveEmptyEntries)
         $has_err = $false
         if ($parts.Count -gt 0) {
             $p = ""
